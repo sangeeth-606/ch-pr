@@ -35,8 +35,8 @@ const App = () => {
 
   // Handler for rating submission
   const handleRatingSubmit = (productId, newRating) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
+    setProducts((befoProd) =>
+      befoProd.map((product) =>
         product.id === productId
           ? {
               ...product,
