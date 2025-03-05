@@ -1,43 +1,90 @@
-import React, { useState } from 'react';
-import ProductCard from './components/ProductCard';
-import './App.css';
+import { useState } from "react";
+import ProductCard from "./components/ProductCard";
 
-const initialProducts = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    description: "High-quality sound with noise cancellation.",
-    image: "https://picsum.photos/300/200?random=1",
-    avgRating: 4.2,
-    totalRatings: 10
-  },
-  {
-    id: 2,
-    name: "Smartwatch",
-    description: "Track your fitness and notifications.",
-    image: "https://picsum.photos/300/200?random=2",
-    avgRating: 3.8,
-    totalRatings: 15
-  },
-  {
-    id: 3,
-    name: "Portable Speaker",
-    description: "Powerful sound in a compact design.",
-    image: "https://picsum.photos/300/200?random=3",
-    avgRating: 4.5,
-    totalRatings: 8
-  }
-];
+const App = () => {
+  // Static products array (provided in the boilerplate)
+  const initialProducts = [
+    {
+      id: 1,
+      name: "Product 1",
+      description: "This is the first product.",
+      image: "https://via.placeholder.com/150",
+      avgRating: 0,
+      totalRatings: 0,
+    },
+    {
+      id: 2,
+      name: "Product 2",
+      description: "This is the second product.",
+      image: "https://via.placeholder.com/150",
+      avgRating: 0,
+      totalRatings: 0,
+    },
+    {
+      id: 3,
+      name: "Product 3",
+      description: "This is the third product.",
+      image: "https://via.placeholder.com/150",
+      avgRating: 0,
+      totalRatings: 0,
+    },
+  ];
 
-function App() {
 
- 
+  const [products, setProducts] = useState(initialProducts);
+
+  // Handler for rating submission
+  const handleRatingSubmit = (productId, newRating) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === productId
+          ? {
+              ...product,
+              avgRating:
+                (product.avgRating * product.totalRatings + newRating) /
+                (product.totalRatings + 1),
+              totalRatings: product.totalRatings + 1,
+            }
+          : product
+      )
+    );
+  };
 
   return (
-    <div>
-     {/* code here */}
+    <div
+      style={{
+        padding: "32px",
+        backgroundColor: "#f9fafb",
+        minHeight: "100vh",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          textAlign: "center",
+          marginBottom: "32px",
+        }}
+      >
+        Product Ratings
+      </h1>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "24px",
+        }}
+      >
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onRatingSubmit={handleRatingSubmit}
+          />
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
